@@ -1,0 +1,99 @@
+body {
+    font-family: 'Permanent Marker', cursive;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+input[type="text" i]
+, select
+{
+    display: block;
+    margin: 5%;
+    padding: 2%;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 5%;
+    border: none;
+    border-radius: 5px;
+}
+
+.gametitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+}
+
+.roundNumber {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+}
+
+.question {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+}
+
+.centerbox {
+    background-color: rgb(238, 238, 238);
+    padding: 2%;
+    text-align: center;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+}
+
+.button {
+    background-color:rgb(43, 190, 190);
+    margin: 5%;
+    padding: 4%;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+
+.button:hover {
+    cursor: pointer;
+    opacity: .9;
+}
+
+.playerIcon {
+    margin: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.resultsIcon {
+    margin-bottom: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    background-color: rgb(238, 238, 238);
+    padding: 4%;
+    width: 60%;
+    border-radius: 5px;
+}
+
+.votes {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 66%;
+    position: relative;
+    top: 12px;
+}
+
+.leaderboard {
+    text-align: center;
+}
