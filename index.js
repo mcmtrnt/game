@@ -1,14 +1,16 @@
-async function createGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazonaws.com/default/createGame', data = {"hostName": "appTest", "category": "celebrity tweets"}) {
+
+// https://cp2tvc6qbd.execute-api.us-west-1.amazonaws.com/default/createGame
+async function createGame(url = 'https://pl65yukrjfo5p5j6wrydnkqipy0veuib.lambda-url.us-west-1.on.aws/createGame', data = {"hostName": "appTest", "category": "celebrity tweets"}) {
     const response = await fetch(url, {
       method: 'POST', 
-      mode: 'no-cors',
+    //   mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     })
     .then(response => {
-        console.log('Success:', response);
+        console.log('Success:', response.body);
         // console.log(this);
         // window.location.href = "lobby.html";
     })
