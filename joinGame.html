@@ -8,7 +8,7 @@
         <link rel="icon" href="/favicon.jpg">
 
         <link rel="stylesheet" href="/index.css">
-        <script src="/index.js"></script>
+        <script src="/joinGame.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,9 +24,10 @@
         </h1>
         <div class="frontpage">
             <div class="centerbox">
-                <input type="text" id="name" placeholder="Your Name..."/>
+                <div id="errorMessage" class="errorMessage">Please enter your name</div>
+                <input type="text" id="playerName" placeholder="Your Name..."/>
                 <input type="text" id="gameCode" placeholder="Game Code..."/>
-                <a href="lobby.html"><div class="button">Join</div></a>
+                <div class="button" onclick="joinGame()">Join</div>
             </div>
         </div>
 

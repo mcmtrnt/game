@@ -1,5 +1,5 @@
 
-async function createGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazonaws.com/default/createGame') {
+async function createGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazonaws.com/default/createGame2') {
     hostName = document.getElementById('hostName').value.trim();
     var select = document.getElementById('category');
     var category = select.options[select.selectedIndex].value;
