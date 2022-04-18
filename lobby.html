@@ -22,12 +22,54 @@
         <h1 class="gametitle">
             Stereotyping
         </h1>
-        <div class="frontpage">
+        <div class="participantLobby" id="participantLobby">
+            <div class="centerbox">
+                Waiting for host to start the game...
+                <div>
+                    Players:
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="hostLobby" id="hostLobby">
             <div class="centerbox">
                 Waiting for players to join...
+                <br><br>
+                Game Code: <span id="gameCode"></span>
+                <br><br>
+                <div>
+                    Players:
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
                 <a href="game.html"><div class="button">Start Game</div></a>
             </div>
         </div>
-
     </body>
+
+    <script>
+        var gameCode = sessionStorage.getItem("gameCode");
+        var isHost = sessionStorage.getItem("isHost");
+        
+        console.log(gameCode);
+        console.log(isHost);
+
+        document.getElementById('gameCode').innerHTML = gameCode;
+
+        if (isHost == "true")
+        {
+            document.getElementById('hostLobby').style.display = "block";
+            document.getElementById('participantLobby').style.display = "none";
+        }
+        else
+        {
+            document.getElementById('hostLobby').style.display = "none";
+            document.getElementById('participantLobby').style.display = "block";
+        }
+
+    </script>
+
 </html>

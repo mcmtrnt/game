@@ -97,3 +97,9 @@ input[type="text" i]
 .leaderboard {
     text-align: center;
 }
+
+.errorMessage {
+    display: none;
+    color: red;
+}
+

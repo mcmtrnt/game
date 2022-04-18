@@ -8,7 +8,7 @@
         <link rel="icon" href="/favicon.jpg">
 
         <link rel="stylesheet" href="/index.css">
-        <script src="/index.js"></script>
+        <script src="/createGame.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,12 +24,13 @@
         </h1>
         <div class="frontpage">
             <div class="centerbox">
-                <input type="text" id="name" placeholder="Your Name..."/>
+                <div id="errorMessage" class="errorMessage">Please enter your name</div>
+                <input type="text" id="hostName" placeholder="Your Name..."/>
                 <select name="category" id="category">
-                    <option value="volvo">Wordlist 1</option>
-                    <option value="saab">Wordlist 2</option>
-                    <option value="mercedes">Wordlist 3</option>
-                    <option value="audi">Wordlist 4</option>
+                    <option value="annoyingHabits">Annoying Habits</option>
+                    <option value="celebrityTweets">Celebrity Tweets</option>
+                    <option value="babyNames">Baby Names</option>
+                    <option value="random">Random</option>
                   </select>
                   <a href="lobby.html"></a>
                   <div class="button" onclick="createGame()">Create</div>
