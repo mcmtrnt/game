@@ -1,8 +1,14 @@
 
-async function createGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazonaws.com/default/createGame2') {
+//I have too many triggers. Using newGame works. Using createGame creates 2 records and the request sometimes fails because the body is None
+
+async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/newGame') {
     hostName = document.getElementById('hostName').value.trim();
     var select = document.getElementById('category');
     var category = select.options[select.selectedIndex].value;
+
+    postData = {"hostName": hostName, "category": category}
+
+    console.log(hostName);
 
     if (hostName.length == 0)
     {
@@ -12,25 +18,26 @@ async function createGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazon
     }
     else
     {
-        data = {"hostName": hostName, "category": category}
+        console.log(postData);
 
         const response = await fetch(url, {
-        method: 'POST', 
+        method: 'post', 
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(postData)
         })
         .then(response => response.json())
         .then(data => {
-        console.log('Success');
-        sessionStorage.setItem("gameCode", data.gameCode);
-        sessionStorage.setItem("isHost", data.isHost);
-        window.location.href = "lobby.html";
+            console.log('Success');
+            sessionStorage.setItem("gameCode", data.gameCode);
+            sessionStorage.setItem("isHost", data.isHost);
+            window.location.href = "lobby.html";
         })
         .catch((error) => {
             console.error('Error:', error);
         });
     }
   }
+
