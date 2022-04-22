@@ -1,5 +1,5 @@
 
-//I have too many triggers. Using newGame works. Using createGame creates 2 records and the request sometimes fails because the body is None
+//I have too many createGame triggers. Using newGame works. Using createGame creates 2 records and the request sometimes fails because the body is None
 
 async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/newGame') {
     hostName = document.getElementById('hostName').value.trim();
@@ -7,8 +7,6 @@ async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazon
     var category = select.options[select.selectedIndex].value;
 
     postData = {"hostName": hostName, "category": category}
-
-    console.log(hostName);
 
     if (hostName.length == 0)
     {
@@ -18,8 +16,6 @@ async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazon
     }
     else
     {
-        console.log(postData);
-
         const response = await fetch(url, {
         method: 'post', 
         mode: 'cors',

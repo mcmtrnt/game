@@ -1,8 +1,9 @@
 
-async function joinGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazonaws.com/default/joinGame') {
+async function joinGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/joinGame') {
     
     playerName = document.getElementById('playerName').value.trim();
     gameCode = document.getElementById('gameCode').value.trim();
+    // FIX make sure gameCode is all caps
 
     if (playerName.length == 0)
     {
@@ -27,20 +28,20 @@ async function joinGame(url = 'https://cp2tvc6qbd.execute-api.us-west-1.amazonaw
     // FIX check game code is digits only
     else
     {
-        data = {"gameCode": gameCode, "playerName": playerName}
+        postData = {"gameCode": gameCode, "playerName": playerName}
 
         const response = await fetch(url, {
-        method: 'POST', 
+        method: 'post', 
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(postData)
         })
         .then(response => response.json())
         .then(data => {
         console.log('Success');
-        sessionStorage.setItem("gameCode", data.gameCode);
+        sessionStorage.setItem("gameCode", gameCode);
         sessionStorage.setItem("isHost", data.isHost);
         window.location.href = "lobby.html";
         })
