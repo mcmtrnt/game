@@ -39,9 +39,9 @@
                 <br><br>
                 <div>
                     Players:
-                    <ul id="playerList"></ul>
+                    <ul id="hostPlayerList"></ul>
                 </div>
-                <a href="game.html"><div class="button">Start Game</div></a>
+                <div class="button" onclick="startGame()">Start Game</div>
             </div>
         </div>
     </body>
@@ -66,12 +66,11 @@
         if (gameCode.length > 0)
         {
             getPlayers(gameCode);
-            setInterval(getPlayers, 2000, gameCode);
+            setInterval(getPlayers, 2500, gameCode);
         }
 
         async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
     
-            console.log('here');
             postData = {"gameCode": gameCode}
 
             const response = await fetch(url, {
@@ -86,26 +85,65 @@
             .then(data => {
                 console.log('Success');
 
+                isStarted = data['isStarted']['BOOL']
+
                 var ul = document.getElementById("playerList");
+                var ul2 = document.getElementById("hostPlayerList");
                 ul.innerHTML = "";
-                for (i = 0; i < data['L'].length; i++)
+                for (i = 0; i < data['players']['L'].length; i++)
                 {
-                    playerName = data['L'][i]['M']['name']['S'];
-                    
+                    playerName = data['players']['L'][i]['M']['name']['S'];
+
                     var li = document.createElement("li");
                     li.appendChild(document.createTextNode(playerName));
                     ul.appendChild(li);
+                    ul2.appendChild(li);
                 }
 
+                if (isStarted == true)
+                {
+                    window.location.href = "game.html";
+                }
                 
-                // if game.isStarted = True, send to next page
-                // window.location.href = "lobby.html";
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         }
 
+
+        async function startGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/startGame') {
+    
+            var gameCode = sessionStorage.getItem("gameCode");
+            postData = {"gameCode": gameCode}
+
+            console.log(postData);
+
+            const response = await fetch(url, {
+            method: 'post', 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success');
+
+                isStarted = data['isStarted']
+
+                if (isStarted == true)
+                {
+                    window.location.href = "game.html";
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+            
+        }
 
     </script>
 

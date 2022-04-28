@@ -26,6 +26,7 @@ async function joinGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaw
         document.getElementById('playerName').style.boxShadow = "none";
     }
     // FIX check game code is digits only
+    // FIX don't let people join if the game has already started?
     else
     {
         postData = {"gameCode": gameCode, "playerName": playerName}
