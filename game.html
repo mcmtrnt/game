@@ -19,9 +19,9 @@
         <header>
             <a href="index.html">PigeonHoleGames</a>
         </header>
-        <h2 class="roundNumber">Round 1 / 5</h2>
+        <h2 class="roundNumber">Round <span id="roundNumber">1</span> / 5</h2>
         <div class="question">Does this describe boys or girls better?<br><small>(You get a point if you vote with the majority)</small></div>
-        <h1 class="question">
+        <h1 class="question" id="word">
             WORD
         </h1>
         <div class="box">
@@ -30,4 +30,23 @@
         </div>
 
     </body>
+
+    <script>
+        var gameCode = sessionStorage.getItem("gameCode");
+
+        var roundNumber = sessionStorage.getItem("roundNumber");
+        if (roundNumber == null)
+        {
+            roundNumber = 1
+        }
+        console.log(roundNumber);
+        document.getElementById("roundNumber").innerHTML = roundNumber;
+
+        var words = sessionStorage.getItem("words").split(",");
+        console.log(words);
+        word = words[(roundNumber-1)]
+        document.getElementById("word").innerHTML = word;
+
+    </script>
+
 </html>

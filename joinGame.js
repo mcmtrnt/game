@@ -42,9 +42,12 @@ async function joinGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaw
         .then(response => response.json())
         .then(data => {
         console.log('Success');
+        console.log(data);
+
         sessionStorage.setItem("gameCode", gameCode);
         sessionStorage.setItem("isHost", data.isHost);
         sessionStorage.setItem("playerName", data.playerName);
+        sessionStorage.setItem("words", data.words);
         window.location.href = "lobby.html";
         })
         .catch((error) => {

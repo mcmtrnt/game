@@ -1,5 +1,4 @@
 
-//I have too many createGame triggers. Using newGame works. Using createGame creates 2 records and the request sometimes fails because the body is None
 
 async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/newGame') {
     hostName = document.getElementById('hostName').value.trim();
@@ -27,9 +26,12 @@ async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazon
         .then(response => response.json())
         .then(data => {
             console.log('Success');
+            console.log(data.gameCode);
+
             sessionStorage.setItem("gameCode", data.gameCode);
             sessionStorage.setItem("isHost", data.isHost);
             sessionStorage.setItem("playerName", data.playerName);
+            sessionStorage.setItem("words", data.words);
             window.location.href = "lobby.html";
         })
         .catch((error) => {
