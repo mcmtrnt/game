@@ -44,6 +44,7 @@ async function joinGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaw
         console.log('Success');
         sessionStorage.setItem("gameCode", gameCode);
         sessionStorage.setItem("isHost", data.isHost);
+        sessionStorage.setItem("playerName", data.playerName);
         window.location.href = "lobby.html";
         })
         .catch((error) => {
