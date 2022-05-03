@@ -8,7 +8,7 @@
         <link rel="icon" href="/favicon.jpg">
 
         <link rel="stylesheet" href="/index.css">
-        <script src="/index.js"></script>
+        <script src="/game.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,8 +25,8 @@
             WORD
         </h1>
         <div class="box">
-            <div class="playerIcon button">Boys</div>
-            <div class="playerIcon button">Girls</div>
+            <div class="playerIcon button" onclick="submitAnswer('B')">Boys</div>
+            <div class="playerIcon button" onclick="submitAnswer('G')">Girls</div>
         </div>
 
     </body>
@@ -43,7 +43,7 @@
         document.getElementById("roundNumber").innerHTML = roundNumber;
 
         var words = sessionStorage.getItem("words").split(",");
-        console.log(words);
+        // console.log(words);
         word = words[(roundNumber-1)]
         document.getElementById("word").innerHTML = word;
 
