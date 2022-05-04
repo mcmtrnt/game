@@ -108,3 +108,18 @@ input[type="text" i]
     color: red;
 }
 
+.timer {
+    text-align: center;
+    margin: 2rem;
+    font-size: larger;
+}
+
+.waitingRoomContainer {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.waitingRoomList {
+    flex: 1;
+}
+

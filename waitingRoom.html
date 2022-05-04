@@ -1,0 +1,132 @@
+<html>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>Lobby | PigeonHoleGames</title>
+        <link rel="icon" href="/favicon.jpg">
+
+        <link rel="stylesheet" href="/index.css">
+        <!-- <script src="/lobby.js"></script> -->
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <header>
+            <a href="index.html">PigeonHoleGames</a>
+        </header>
+        <h1 class="gametitle">
+            Stereotyping
+        </h1>
+        <div class="participantLobby" id="participantLobby">
+            <div class="centerbox">
+                Waiting for everyone to answer...
+                <div class="timer" id="timer">30</div>
+                <div class="waitingRoomContainer">
+                    <div class="waitingRoomList">
+                        Waiting for:
+                        <ul id="waitingForList"></ul>
+                    </div>
+                    <div class="waitingRoomList">
+                        Answered:
+                        <ul id="answeredList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        var gameCode = sessionStorage.getItem("gameCode");
+        waitingFor = [];
+        answered = [];
+
+        do {
+            getPlayers(gameCode);
+            setInterval(getPlayers, 2000, gameCode);
+        } while (waitingFor.length > 0);
+
+        async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
+
+            postData = {"gameCode": gameCode}
+
+            const response = await fetch(url, {
+            method: 'post', 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success');
+                console.log(data);
+
+                var waitingForList = document.getElementById("waitingForList");
+                var answeredList = document.getElementById("answeredList");
+                waitingForList.innerHTML = "";
+                answeredList.innerHTML = "";
+
+                for (i = 0; i < data['Count']; i++)
+                {
+                    playerName = data['Items'][i]['playerName']['S'];
+                    lastAnswer = data['Items'][i]['lastAnswer']['S'];
+
+                    if (lastAnswer == 'B' || lastAnswer == 'G' || lastAnswer == 'N')
+                    {
+                        answered.push(playerName);
+
+                        var li2 = document.createElement("li");
+                        li2.appendChild(document.createTextNode(playerName));
+                        answeredList.appendChild(li2);
+                    }
+                    else
+                    {
+                        waitingFor.push(playerName);
+
+                        var li2 = document.createElement("li");
+                        li2.appendChild(document.createTextNode(playerName));
+                        waitingForList.appendChild(li2);
+                    }
+
+                }
+
+                // console.log(waitingFor.length);
+                
+                if (waitingFor.length == 0)
+                {
+                    window.location.href = "results.html";
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+
+        /////////// timer
+        var timeLeft = 29;
+        var elem = document.getElementById('timer');
+        
+        var timerId = setInterval(countdown, 1000);
+        
+        function countdown() {
+            if (timeLeft == -1) {
+                clearTimeout(timerId);
+                window.location.href = "results.html";
+                // submitAnswer('N'); //Submit answer for everyone who hasn't answered yet... They likely left the game
+            } else {
+                elem.innerHTML = timeLeft;
+                timeLeft--;
+            }
+        }
+
+    </script>
+
+</html>

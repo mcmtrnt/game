@@ -41,11 +41,26 @@
         <h2 class="roundNumber">LeaderBoard</h2>
         <div class="leaderboard">
             <div class="leader">1st Player One</div>
-            <div class="leader">2nd. Player Two</div>
+            <div class="leader">2nd Player Two</div>
             <div class="leader">3rd Player Three</div>
 
             <a href="game.html"><div class="button">Next Round</div></a>
         </div>
 
     </body>
+
+    <script>
+        var gameCode = sessionStorage.getItem("gameCode");
+
+        var roundNumber = sessionStorage.getItem("roundNumber");
+        if (roundNumber == null)
+        {
+            roundNumber = 1
+        }
+
+
+
+        
+
+    </script>
 </html>

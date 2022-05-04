@@ -24,11 +24,11 @@
         <h1 class="question" id="word">
             WORD
         </h1>
+        <div class="timer" id="timer">30</div>
         <div class="box">
             <div class="playerIcon button" onclick="submitAnswer('B')">Boys</div>
             <div class="playerIcon button" onclick="submitAnswer('G')">Girls</div>
         </div>
-
     </body>
 
     <script>
@@ -39,13 +39,30 @@
         {
             roundNumber = 1
         }
-        console.log(roundNumber);
+        // console.log(roundNumber);
         document.getElementById("roundNumber").innerHTML = roundNumber;
 
         var words = sessionStorage.getItem("words").split(",");
         // console.log(words);
         word = words[(roundNumber-1)]
         document.getElementById("word").innerHTML = word;
+
+
+        /////////// timer
+        var timeLeft = 29;
+        var elem = document.getElementById('timer');
+        
+        var timerId = setInterval(countdown, 1000);
+        
+        function countdown() {
+            if (timeLeft == -1) {
+                clearTimeout(timerId);
+                submitAnswer('N');
+            } else {
+                elem.innerHTML = timeLeft;
+                timeLeft--;
+            }
+        }
 
     </script>
 
