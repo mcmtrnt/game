@@ -123,3 +123,14 @@ input[type="text" i]
     flex: 1;
 }
 
+#boysCrown
+,#girlsCrown {
+    display: none;
+}
+
+#waitingForHost {
+    display: none;
+    margin-top: 2rem;
+    font-size: smaller;
+}
+

@@ -19,22 +19,28 @@
         <header>
             <a href="index.html">PigeonHoleGames</a>
         </header>
-        <h2 class="roundNumber">Round 1 Results</h2>
-        <h1 class="question">
-            Who does this question apply to most?
+        <h2 class="roundNumber">Round <span id="roundNumber">1</span> Results</h2>
+        <h1 class="question" id="word">
+            Word
         </h1>
-        <div>
-            <div class="votes">X X X</div>
-            <div class="resultsIcon">
-                Player One
-            </div>
-            <div class="votes">X X</div>
-            <div class="resultsIcon">
-                Player Two
-            </div>
-            <div class="votes">X</div>
-            <div class="resultsIcon">
-                Player Three
+        <div class="participantLobby" id="participantLobby">
+            <div class="centerbox">
+                <div class="waitingRoomContainer">
+                    <div class="waitingRoomList">
+                        <img id="boysCrown" src="/crown.png" style="max-width: 20px;">
+                        Boys:
+                        <ul id="boysList">
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                        </ul>
+                    </div>
+                    <div class="waitingRoomList">
+                        <img id="girlsCrown" src="/crown.png" style="max-width: 20px;">
+                        Girls:
+                        <ul id="girlsList"></ul>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -44,13 +50,23 @@
             <div class="leader">2nd Player Two</div>
             <div class="leader">3rd Player Three</div>
 
-            <a href="game.html"><div class="button">Next Round</div></a>
+            <div class="button" id="nextRoundButton" onclick="nextRound()">Next Round</div>
+            <div id="waitingForHost">Waiting for host to start the next round...</div>
         </div>
 
     </body>
 
     <script>
+        boysList = [];
+        girlsList = [];
+
         var gameCode = sessionStorage.getItem("gameCode");
+        var isHost = sessionStorage.getItem("isHost");
+        if (isHost == "false")
+        {
+            document.getElementById('nextRoundButton').style.display = "none";
+            document.getElementById('waitingForHost').style.display = "block";
+        }
 
         var roundNumber = sessionStorage.getItem("roundNumber");
         if (roundNumber == null)
@@ -58,9 +74,76 @@
             roundNumber = 1
         }
 
+        document.getElementById("roundNumber").innerHTML = roundNumber;
+
+        var words = sessionStorage.getItem("words").split(",");
+        word = words[(roundNumber-1)]
+        document.getElementById("word").innerHTML = word;
+
+        getPlayers(gameCode);
+
+        async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
+
+            postData = {"gameCode": gameCode}
+
+            const response = await fetch(url, {
+            method: 'post', 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success');
+                console.log(data);
+
+                var boysUl = document.getElementById("boysList");
+                var girlsUl = document.getElementById("girlsList");
+                boysUl.innerHTML = "";
+                girlsUl.innerHTML = "";
+
+                for (i = 0; i < data['Count']; i++)
+                {
+                    playerName = data['Items'][i]['playerName']['S'];
+                    lastAnswer = data['Items'][i]['lastAnswer']['S'];
+
+                    if (lastAnswer == 'B')
+                    {
+                        boysList.push(playerName);
+
+                        var li2 = document.createElement("li");
+                        li2.appendChild(document.createTextNode(playerName));
+                        boysUl.appendChild(li2);
+                    }
+                    else if (lastAnswer == 'G')
+                    {
+                        girlsList.push(playerName);
+
+                        var li2 = document.createElement("li");
+                        li2.appendChild(document.createTextNode(playerName));
+                        girlsUl.appendChild(li2);
+                    }
+                }
+
+                if (boysList.length > girlsList.length)
+                {
+                    document.getElementById('boysCrown').style.display = 'inline-block';
+                }
+                else if (girlsList.length > boysList.length)
+                {
+                    document.getElementById('girlsCrown').style.display = 'inline-block';
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
 
 
-        
+
 
     </script>
 </html>
