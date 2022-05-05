@@ -29,11 +29,7 @@
                     <div class="waitingRoomList">
                         <img id="boysCrown" src="/crown.png" style="max-width: 20px;">
                         Boys:
-                        <ul id="boysList">
-                            <li>test</li>
-                            <li>test</li>
-                            <li>test</li>
-                        </ul>
+                        <ul id="boysList"></ul>
                     </div>
                     <div class="waitingRoomList">
                         <img id="girlsCrown" src="/crown.png" style="max-width: 20px;">
@@ -51,6 +47,7 @@
             <div class="leader">3rd Player Three</div>
 
             <div class="button" id="nextRoundButton" onclick="nextRound()">Next Round</div>
+            <a href="index.html" id="playAgain"><div class="button">Play Again</div></a>
             <div id="waitingForHost">Waiting for host to start the next round...</div>
         </div>
 
@@ -59,8 +56,10 @@
     <script>
         boysList = [];
         girlsList = [];
+        players = [];
 
         var gameCode = sessionStorage.getItem("gameCode");
+        var currentPlayerName = sessionStorage.getItem("playerName");
         var isHost = sessionStorage.getItem("isHost");
         if (isHost == "false")
         {
@@ -81,6 +80,19 @@
         document.getElementById("word").innerHTML = word;
 
         getPlayers(gameCode);
+
+        if (roundNumber < 5)
+        {
+            do {
+                getNextRound(gameCode);
+                setInterval(getNextRound, 2000, gameCode);
+            } while (waitingFor.length > 0);
+        }
+        else if (isHost == "true")
+        {
+            document.getElementById('nextRoundButton').style.display = "none";
+            document.getElementById('playAgain').style.display = "block";
+        }
 
         async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
 
@@ -107,6 +119,7 @@
                 for (i = 0; i < data['Count']; i++)
                 {
                     playerName = data['Items'][i]['playerName']['S'];
+                    players.push(playerName);
                     lastAnswer = data['Items'][i]['lastAnswer']['S'];
 
                     if (lastAnswer == 'B')
@@ -143,7 +156,72 @@
         }
 
 
+        async function nextRound(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/submitAnswer') {
+    
+            var gameCode = sessionStorage.getItem("gameCode");
 
+            for (i in players) 
+            {
+                postData = {"gameCode": gameCode, "playerName": players[i], "answer":""}
+
+                const response = await fetch(url, {
+                method: 'post', 
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success');
+                    sessionStorage.setItem("lastAnswer", ""); 
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+
+            //how do I send everyone back to the game screen?... check if lastAnswer == "" then increment roundNumber and go to gameScreen
+            
+        }
+
+
+        async function getNextRound(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
+            postData = {"gameCode": gameCode}
+
+            const response = await fetch(url, {
+            method: 'post', 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success');
+                console.log(data);
+
+                for (i = 0; i < data['Count']; i++)
+                {
+                    playerName = data['Items'][i]['playerName']['S'];
+                    if (currentPlayerName == playerName)
+                    {
+                        lastAnswer = data['Items'][i]['lastAnswer']['S'];
+                        if (lastAnswer == "")
+                        {
+                            sessionStorage.setItem("roundNumber", (parseInt(roundNumber) + 1)); 
+                            window.location.href = "game.html";
+                        }
+                    }
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
 
     </script>
 </html>

@@ -71,6 +71,8 @@
                 var answeredList = document.getElementById("answeredList");
                 waitingForList.innerHTML = "";
                 answeredList.innerHTML = "";
+                waitingFor = [];
+                answered = [];
 
                 for (i = 0; i < data['Count']; i++)
                 {
@@ -96,7 +98,7 @@
 
                 }
 
-                // console.log(waitingFor.length);
+                console.log(waitingFor.length);
                 
                 if (waitingFor.length == 0)
                 {
@@ -121,7 +123,7 @@
             if (timeLeft == -1) {
                 clearTimeout(timerId);
                 window.location.href = "results.html";
-                // submitAnswer('N'); //Submit answer for everyone who hasn't answered yet... They likely left the game
+                //FIX submitAnswer('N'); //Submit answer for everyone who hasn't answered yet... They likely left the game
             } else {
                 elem.innerHTML = timeLeft;
                 timeLeft--;

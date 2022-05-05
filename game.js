@@ -16,7 +16,7 @@ async function submitAnswer(answer, url = 'https://hjs0sxm035.execute-api.us-eas
     .then(response => response.json())
     .then(data => {
         console.log('Success');
-        sessionStorage.setItem("lastAnser", answer); 
+        sessionStorage.setItem("lastAnswer", answer); 
         window.location.href = "waitingRoom.html";
     })
     .catch((error) => {

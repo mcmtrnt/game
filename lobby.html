@@ -67,7 +67,7 @@
         if (gameCode.length > 0)
         {
             getPlayers(gameCode);
-            setInterval(getPlayers, 2500, gameCode);
+            setInterval(getPlayers, 2000, gameCode);
         }
 
         async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
@@ -144,7 +144,8 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success');
-                    sessionStorage.setItem("words", data.words);                    
+                    sessionStorage.setItem("words", data.words);   
+                    sessionStorage.setItem("roundNumber", 1);                    
                 })
                 .catch((error) => {
                     console.error('Error:', error);

@@ -124,7 +124,8 @@ input[type="text" i]
 }
 
 #boysCrown
-,#girlsCrown {
+,#girlsCrown
+,#playAgain {
     display: none;
 }
 
