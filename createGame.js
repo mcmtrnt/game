@@ -32,6 +32,7 @@ async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazon
             sessionStorage.setItem("isHost", data.isHost);
             sessionStorage.setItem("playerName", data.playerName);
             sessionStorage.setItem("words", data.words);
+            sessionStorage.setItem("score", data.score);
             window.location.href = "lobby.html";
         })
         .catch((error) => {

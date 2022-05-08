@@ -41,11 +41,10 @@
         </div>
 
         <h2 class="roundNumber">LeaderBoard</h2>
+        <div class="waitingRoomList">
+            <ul id="leaderboardList"></ul>
+        </div>
         <div class="leaderboard">
-            <div class="leader">1st Player One</div>
-            <div class="leader">2nd Player Two</div>
-            <div class="leader">3rd Player Three</div>
-
             <div class="button" id="nextRoundButton" onclick="nextRound()">Next Round</div>
             <a href="index.html" id="playAgain"><div class="button">Play Again</div></a>
             <div id="waitingForHost">Waiting for host to start the next round...</div>
@@ -57,6 +56,8 @@
         boysList = [];
         girlsList = [];
         players = [];
+        sortable = [];
+        threeTries = 3;
 
         var gameCode = sessionStorage.getItem("gameCode");
         var currentPlayerName = sessionStorage.getItem("playerName");
@@ -80,6 +81,10 @@
         document.getElementById("word").innerHTML = word;
 
         getPlayers(gameCode);
+        // do {
+        //     getPlayers(gameCode);
+        //     setInterval(getPlayers, 2000, gameCode);
+        // } while (threeTries > 0);
 
         if (roundNumber < 5)
         {
@@ -88,14 +93,23 @@
                 setInterval(getNextRound, 2000, gameCode);
             } while (waitingFor.length > 0);
         }
-        else if (isHost == "true")
+        else
         {
+            finished = true;
             document.getElementById('nextRoundButton').style.display = "none";
+            document.getElementById('waitingForHost').style.display = "none";
             document.getElementById('playAgain').style.display = "block";
+
+            sessionStorage.setItem("gameCode", "");
+            sessionStorage.setItem("isHost", "");
+            sessionStorage.setItem("playerName", "");
+            sessionStorage.setItem("words", "");
+            sessionStorage.setItem("score", "");
+            sessionStorage.setItem("roundNumber", 1); 
         }
 
         async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
-
+            threeTries = threeTries - 1;
             postData = {"gameCode": gameCode}
 
             const response = await fetch(url, {
@@ -113,14 +127,18 @@
 
                 var boysUl = document.getElementById("boysList");
                 var girlsUl = document.getElementById("girlsList");
+                var leaderboardUl = document.getElementById("leaderboardList");
                 boysUl.innerHTML = "";
                 girlsUl.innerHTML = "";
+                leaderboardUl.innerHTML = "";
 
                 for (i = 0; i < data['Count']; i++)
                 {
                     playerName = data['Items'][i]['playerName']['S'];
-                    players.push(playerName);
                     lastAnswer = data['Items'][i]['lastAnswer']['S'];
+                    score = data['Items'][i]['score']['N'];
+                    players.push(playerName);
+                    sortable.push([playerName, score]);
 
                     if (lastAnswer == 'B')
                     {
@@ -140,6 +158,18 @@
                     }
                 }
 
+                sortable.sort(function(a, b) {
+                    return a[1] - b[1];
+                });
+
+                for (i = 0; i < sortable.length; i++)
+                {
+                    console.log(sortable[i]);
+                    var li3 = document.createElement("li");
+                    li3.appendChild(document.createTextNode(ordinal_suffix_of(i+1) + " " + sortable[i][0] + " " + sortable[i][1]));
+                    leaderboardUl.appendChild(li3);
+                }
+
                 if (boysList.length > girlsList.length)
                 {
                     document.getElementById('boysCrown').style.display = 'inline-block';
@@ -155,9 +185,23 @@
             });
         }
 
+        function ordinal_suffix_of(i) {
+            var j = i % 10,
+                k = i % 100;
+            if (j == 1 && k != 11) {
+                return i + "st";
+            }
+            if (j == 2 && k != 12) {
+                return i + "nd";
+            }
+            if (j == 3 && k != 13) {
+                return i + "rd";
+            }
+            return i + "th";
+        }
 
         async function nextRound(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/submitAnswer') {
-    
+
             var gameCode = sessionStorage.getItem("gameCode");
 
             for (i in players) 
@@ -181,8 +225,6 @@
                     console.error('Error:', error);
                 });
             }
-
-            //how do I send everyone back to the game screen?... check if lastAnswer == "" then increment roundNumber and go to gameScreen
             
         }
 

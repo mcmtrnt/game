@@ -42,16 +42,23 @@
 
     <script>
         var gameCode = sessionStorage.getItem("gameCode");
+        var myName = sessionStorage.getItem("playerName");
+        var score = sessionStorage.getItem("score");
+        console.log(score);
         waitingFor = [];
         answered = [];
+        boysList = [];
+        girlsList = [];
+        var myLastAnswer = "";
 
         do {
-            getPlayers(gameCode);
-            setInterval(getPlayers, 2000, gameCode);
+            getPlayers();
+            setInterval(getPlayers, 2000);
         } while (waitingFor.length > 0);
 
-        async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
-
+        async function getPlayers(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
+            boysList = [];
+            girlsList = [];
             postData = {"gameCode": gameCode}
 
             const response = await fetch(url, {
@@ -65,7 +72,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success');
-                console.log(data);
+                // console.log(data);
 
                 var waitingForList = document.getElementById("waitingForList");
                 var answeredList = document.getElementById("answeredList");
@@ -79,6 +86,11 @@
                     playerName = data['Items'][i]['playerName']['S'];
                     lastAnswer = data['Items'][i]['lastAnswer']['S'];
 
+                    if (playerName == myName)
+                    {
+                        myLastAnswer = lastAnswer;
+                    }
+
                     if (lastAnswer == 'B' || lastAnswer == 'G' || lastAnswer == 'N')
                     {
                         answered.push(playerName);
@@ -86,6 +98,15 @@
                         var li2 = document.createElement("li");
                         li2.appendChild(document.createTextNode(playerName));
                         answeredList.appendChild(li2);
+
+                        if (lastAnswer == 'B')
+                        {
+                            boysList.push(playerName);
+                        }
+                        else if (lastAnswer == 'G')
+                        {
+                            girlsList.push(playerName);
+                        }
                     }
                     else
                     {
@@ -98,12 +119,12 @@
 
                 }
 
-                console.log(waitingFor.length);
+                // console.log(waitingFor.length);
                 
                 if (waitingFor.length == 0)
                 {
-                    //determine if they are in the majority, and update their score if so
-                    window.location.href = "results.html";
+                    updateScore();
+                    // window.location.href = "results.html";
                 }
                 
             })
@@ -128,6 +149,40 @@
                 elem.innerHTML = timeLeft;
                 timeLeft--;
             }
+        }
+
+
+        async function updateScore(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/updateScore') {
+            
+            // if they are in the majority update their score
+            console.log("boysList: " + boysList.length);
+            console.log("girlsList: " + girlsList.length);
+            console.log("myLastAnswer: " + myLastAnswer);
+            // if (((boysList.length > girlsList.length) && myLastAnswer == "B") || ((girlsList.length > boysList.length) && myLastAnswer == "G"))
+            // {
+                console.log(score);
+
+                postData = {"gameCode": gameCode, "playerName": myName, "score":(parseInt(score)+1).toString()}
+
+                const response = await fetch(url, {
+                method: 'post', 
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success');
+                    console.log(data);
+                    sessionStorage.setItem("score", (parseInt(score)+1).toString());
+                    window.location.href = "results.html";
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            // }
         }
 
     </script>
