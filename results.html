@@ -80,11 +80,11 @@
         word = words[(roundNumber-1)]
         document.getElementById("word").innerHTML = word;
 
-        getPlayers(gameCode);
-        // do {
-        //     getPlayers(gameCode);
-        //     setInterval(getPlayers, 2000, gameCode);
-        // } while (threeTries > 0);
+        do {
+            getPlayers(gameCode);
+            // setInterval(getPlayers, 2000, gameCode);
+            threeTries = (threeTries - 1);
+        } while (threeTries > 0);
 
         if (roundNumber < 5)
         {
@@ -109,7 +109,6 @@
         }
 
         async function getPlayers(gameCode, url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/getPlayers') {
-            threeTries = threeTries - 1;
             postData = {"gameCode": gameCode}
 
             const response = await fetch(url, {
@@ -131,6 +130,7 @@
                 boysUl.innerHTML = "";
                 girlsUl.innerHTML = "";
                 leaderboardUl.innerHTML = "";
+                sortable = [];
 
                 for (i = 0; i < data['Count']; i++)
                 {

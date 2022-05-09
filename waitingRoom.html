@@ -158,8 +158,8 @@
             console.log("boysList: " + boysList.length);
             console.log("girlsList: " + girlsList.length);
             console.log("myLastAnswer: " + myLastAnswer);
-            // if (((boysList.length > girlsList.length) && myLastAnswer == "B") || ((girlsList.length > boysList.length) && myLastAnswer == "G"))
-            // {
+            if (((boysList.length > girlsList.length) && myLastAnswer == "B") || ((girlsList.length > boysList.length) && myLastAnswer == "G"))
+            {
                 console.log(score);
 
                 postData = {"gameCode": gameCode, "playerName": myName, "score":(parseInt(score)+1).toString()}
@@ -182,7 +182,11 @@
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-            // }
+            }
+            else
+            {
+                window.location.href = "results.html";
+            }
         }
 
     </script>

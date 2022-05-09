@@ -135,3 +135,7 @@ input[type="text" i]
     font-size: smaller;
 }
 
+#leaderboardList {
+    text-align: center;
+}
+
