@@ -1,9 +1,12 @@
 body {
     font-family: 'Permanent Marker', cursive;
+    background-image: url("/images/background.jpg");
+    background-size: cover;
+    color: honeydew;
 }
 
 a {
-    color: black;
+    color: honeydew;
     text-decoration: none;
 }
 
@@ -48,7 +51,6 @@ input[type="text" i]
 }
 
 .centerbox {
-    background-color: rgb(238, 238, 238);
     padding: 2%;
     text-align: center;
     max-width: 50%;
@@ -58,7 +60,7 @@ input[type="text" i]
 }
 
 .button {
-    background-color:rgb(43, 190, 190);
+    background-color:#1a1a1a;
     margin: 5%;
     padding: 4%;
     width: 60%;
