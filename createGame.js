@@ -1,7 +1,7 @@
 
 
 async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazonaws.com/default/newGame') {
-    hostName = document.getElementById('hostName').value.trim();
+    hostName = document.getElementById('hostName').value.trim().toUpperCase();
     var select = document.getElementById('category');
     var category = select.options[select.selectedIndex].value;
 
@@ -9,6 +9,14 @@ async function createGame(url = 'https://hjs0sxm035.execute-api.us-east-1.amazon
 
     if (hostName.length == 0)
     {
+        document.getElementById('errorMessage').innerHTML = "Please enter your name";
+        document.getElementById('errorMessage').style.display = "block";
+        document.getElementById('hostName').style.border = "1px solid red";
+        document.getElementById('hostName').style.boxShadow = "0 0 5px 2px #f99c9c";
+    }
+    else if ((/[^a-zA-Z0-9]/.test(hostName)))
+    {
+        document.getElementById('errorMessage').innerHTML = "Your name can only contain letters and numbers";
         document.getElementById('errorMessage').style.display = "block";
         document.getElementById('hostName').style.border = "1px solid red";
         document.getElementById('hostName').style.boxShadow = "0 0 5px 2px #f99c9c";
