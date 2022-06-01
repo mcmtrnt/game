@@ -170,3 +170,18 @@ input[type="text" i]
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
+
+.gameBoxes {
+    margin: 1rem;
+    display: flex;
+}
+
+.gameBox {
+    text-align: center;
+    /* margin: auto; */
+    padding: 1rem;
+    border: 1px solid #e0dfdf;
+    width: 30%;
+}
+
+
