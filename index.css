@@ -1,12 +1,14 @@
 body {
     font-family: 'Permanent Marker', cursive;
-    background-image: url("/images/background.jpg");
-    background-size: cover;
-    color: honeydew;
+    /* background-image: url("/images/background.jpg"); */
+    /* background-size: cover; */
+    /* color: honeydew; */
+    color: #1a1a1a;
 }
 
 a {
-    color: honeydew;
+    color: #1a1a1a;
+    /* color: honeydew; */
     text-decoration: none;
 }
 
@@ -60,7 +62,7 @@ input[type="text" i]
 }
 
 .button {
-    background-color:#1a1a1a;
+    background-color:#a7a7a7;
     margin: 5%;
     padding: 4%;
     width: 60%;
@@ -141,3 +143,30 @@ input[type="text" i]
     text-align: center;
 }
 
+.mainBanner {
+
+}
+
+.mainBannerImg {
+    display: inline-block;
+    max-width: 50%;
+}
+
+.mainBannerText {
+    display: inline-block;
+    max-width: 49%;
+    vertical-align: top;
+    margin-top: 10%;
+}
+
+.mainBoxes {
+    background-color: #e0dfdf;
+    margin: 1rem;
+    display: flex;
+}
+
+.mainBox {
+    margin: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
