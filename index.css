@@ -171,6 +171,11 @@ input[type="text" i]
     padding-bottom: 2rem;
 }
 
+.gameBox:hover {
+    background-color: #e0dfdf;
+    cursor: pointer;
+}
+
 .gameBoxes {
     margin: 1rem;
     display: flex;
